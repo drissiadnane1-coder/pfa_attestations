@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demandes en attente</title>
+</head>
+<body>
+
+    <h1>Demandes en attente</h1>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Demandeur</th>
+            <th>Type</th>
+            <th>Date dépôt</th>
+            <th>Statut</th>
+            <th>Action</th>
+        </tr>
+
+        {% for demande in demandes %}
+            <tr>
+                <td>{{ demande.id }}</td>
+                <td>{{ demande.demandeur.utilisateur.username }}</td>
+                <td>{{ demande.type_attestation.libelle }}</td>
+                <td>{{ demande.date_depot }}</td>
+                <td>{{ demande.statut }}</td>
+                <td>
+                    <a href="{% url 'detail_demande' demande.id %}">Voir détail</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6">Aucune demande en attente.</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <a href="{% url 'agent_dashboard' %}">Retour au dashboard</a>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Agent Administratif</title>
+</head>
+<body>
+
+    <h1>Espace Agent Administratif</h1>
+
+    <p>Bienvenue {{ request.user.username }}</p>
+
+<ul>
+    <li>
+        <a href="{% url 'demandes_en_attente' %}">
+            Consulter et traiter les demandes en attente
+        </a>
+    </li>
+    <li>Générer une attestation après validation</li>
+    <li>Consulter l’historique</li>
+</ul>
+
+    <a href="{% url 'logout' %}">Se déconnecter</a>
+
+</body>
+</html>

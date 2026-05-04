@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes demandes</title>
+</head>
+<body>
+
+    <h1>Mes demandes d’attestation</h1>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Date dépôt</th>
+            <th>Statut</th>
+            <th>Commentaire</th>
+        </tr>
+
+        {% for demande in demandes %}
+            <tr>
+                <td>{{ demande.id }}</td>
+                <td>{{ demande.type_attestation.libelle }}</td>
+                <td>{{ demande.date_depot }}</td>
+                <td>{{ demande.statut }}</td>
+                <td>{{ demande.commentaire }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">Aucune demande trouvée.</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <a href="{% url 'deposer_demande' %}">Déposer une nouvelle demande</a>
+    |
+    <a href="{% url 'demandeur_dashboard' %}">Retour au dashboard</a>
+
+</body>
+</html>

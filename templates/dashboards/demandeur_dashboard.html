@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Demandeur</title>
+</head>
+<body>
+
+    <h1>Espace Demandeur</h1>
+
+    <p>Bienvenue {{ request.user.username }}</p>
+
+    <ul>
+<ul>
+    <li><a href="{% url 'deposer_demande' %}">Déposer une demande d’attestation</a></li>
+    <li><a href="{% url 'mes_demandes' %}">Consulter l’état de mes demandes</a></li>
+    <li>Télécharger mon attestation</li>
+</ul>
+    </ul>
+
+    <a href="{% url 'logout' %}">Se déconnecter</a>
+
+</body>
+</html>

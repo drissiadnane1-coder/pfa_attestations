@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Déposer une demande</title>
+</head>
+<body>
+
+    <h1>Déposer une demande d’attestation</h1>
+
+    {% if message %}
+        <p style="color:green;">{{ message }}</p>
+    {% endif %}
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Type d’attestation :</label><br>
+        <select name="type_attestation" required>
+            <option value="">-- Choisir un type --</option>
+            {% for type in types %}
+                <option value="{{ type.id }}">{{ type.libelle }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label>Commentaire :</label><br>
+        <textarea name="commentaire" rows="4" cols="40"></textarea>
+
+        <br><br>
+
+        <button type="submit">Envoyer la demande</button>
+    </form>
+
+    <br>
+
+    <a href="{% url 'demandeur_dashboard' %}">Retour au dashboard</a>
+    |
+    <a href="{% url 'mes_demandes' %}">Mes demandes</a>
+
+</body>
+</html>

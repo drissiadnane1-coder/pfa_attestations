@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Administrateur</title>
+</head>
+<body>
+
+    <h1>Espace Administrateur</h1>
+
+    <p>Bienvenue {{ request.user.username }}</p>
+
+    <ul>
+        <li>Gérer les utilisateurs</li>
+        <li>Gérer les types d’attestation</li>
+        <li>Gérer les modèles d’attestation</li>
+        <li>Consulter le tableau de bord</li>
+        <li>Consulter l’historique des actions</li>
+    </ul>
+
+    <a href="{% url 'logout' %}">Se déconnecter</a>
+
+</body>
+</html>
