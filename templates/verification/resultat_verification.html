@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Vérification attestation</title>
+</head>
+<body>
+
+    <h1>Résultat de vérification</h1>
+
+    {% if resultat == "VALIDE" %}
+        <h2 style="color:green;">Attestation valide</h2>
+    {% elif resultat == "ANNULEE" %}
+        <h2 style="color:orange;">Attestation annulée</h2>
+    {% elif resultat == "EXPIREE" %}
+        <h2 style="color:red;">Attestation expirée</h2>
+    {% else %}
+        <h2 style="color:red;">Attestation introuvable</h2>
+    {% endif %}
+
+    <p>{{ message }}</p>
+
+    {% if attestation %}
+        <p><strong>Numéro :</strong> {{ attestation.numero_unique }}</p>
+        <p><strong>Type :</strong> {{ attestation.demande.type_attestation.libelle }}</p>
+        <p><strong>Demandeur :</strong> {{ attestation.demande.demandeur.utilisateur.first_name }} {{ attestation.demande.demandeur.utilisateur.last_name }}</p>
+        <p><strong>Code interne :</strong> {{ attestation.demande.demandeur.code_interne }}</p>
+        <p><strong>Structure :</strong> {{ attestation.demande.demandeur.structure }}</p>
+        <p><strong>Date génération :</strong> {{ attestation.date_generation }}</p>
+    {% endif %}
+
+</body>
+</html>

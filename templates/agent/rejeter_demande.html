@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rejeter la demande</title>
+</head>
+<body>
+
+    <h1>Rejeter la demande n°{{ demande.id }}</h1>
+
+    <p><strong>Demandeur :</strong> {{ demande.demandeur.utilisateur.username }}</p>
+    <p><strong>Type :</strong> {{ demande.type_attestation.libelle }}</p>
+    <p><strong>Statut actuel :</strong> {{ demande.statut }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="motif_rejet">Motif du rejet :</label><br>
+        <textarea 
+            id="motif_rejet"
+            name="motif_rejet" 
+            rows="5" 
+            cols="50" 
+            required
+        ></textarea>
+
+        <br><br>
+
+        <button type="submit">Confirmer le rejet</button>
+    </form>
+
+    <br>
+
+    <a href="{% url 'detail_demande' demande.id %}">Annuler</a>
+
+</body>
+</html>

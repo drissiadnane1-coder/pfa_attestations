@@ -1,12 +1,27 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import TypeAttestation, DemandeAttestation
-from accounts.models import ProfilDemandeur
-from django.utils import timezone
-from django.shortcuts import get_object_or_404
-from .models import JournalAction
 import uuid
-from .models import Attestation, FichierPDF, QRCodeAttestation
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from .models import (
+    TypeAttestation,
+    DemandeAttestation,
+    Attestation,
+    FichierPDF,
+    QRCodeAttestation,
+    JournalAction,
+    VerificationAttestation,
+)
+
+from accounts.models import ProfilDemandeur
+from .models import (
+    TypeAttestation,
+    DemandeAttestation,
+    Attestation,
+    FichierPDF,
+    QRCodeAttestation,
+    JournalAction,
+)
 from .utils import generer_pdf_attestation
 
 
@@ -29,7 +44,7 @@ def deposer_demande(request):
         type_id = request.POST.get('type_attestation')
         commentaire = request.POST.get('commentaire')
 
-        type_attestation = TypeAttestation.objects.get(id=type_id)
+        type_attestation = get_object_or_404(TypeAttestation, id=type_id, statut=True)
 
         DemandeAttestation.objects.create(
             demandeur=profil,
@@ -57,13 +72,13 @@ def mes_demandes(request):
     except ProfilDemandeur.DoesNotExist:
         demandes = []
     else:
-        demandes = DemandeAttestation.objects.filter(demandeur=profil).order_by('-date_depot')
+        demandes = DemandeAttestation.objects.filter(
+            demandeur=profil
+        ).order_by('-date_depot')
 
     return render(request, 'demandeur/mes_demandes.html', {
         'demandes': demandes
     })
-
-
 
 
 @login_required
@@ -122,7 +137,10 @@ def valider_demande(request, demande_id):
         }
     )
 
-    nom_fichier, fichier_pdf = generer_pdf_attestation(attestation, url_verification)
+    nom_fichier, fichier_pdf = generer_pdf_attestation(
+        attestation,
+        url_verification
+    )
 
     fichier_obj, fichier_created = FichierPDF.objects.get_or_create(
         attestation=attestation,
@@ -140,7 +158,10 @@ def valider_demande(request, demande_id):
         attestation=attestation,
         action=JournalAction.TypeActionJournal.VALIDATION,
         objet_concerne='DemandeAttestation',
-        detail_contextuel=f"Demande {demande.id} validée et attestation {attestation.numero_unique} générée."
+        detail_contextuel=(
+            f"Demande {demande.id} validée et attestation "
+            f"{attestation.numero_unique} générée."
+        )
     )
 
     return redirect('demandes_en_attente')
@@ -165,11 +186,39 @@ def rejeter_demande(request, demande_id):
             utilisateur=request.user,
             action=JournalAction.TypeActionJournal.REJET,
             objet_concerne='DemandeAttestation',
-            detail_contextuel=f"Demande {demande.id} rejetée. Motif : {motif_rejet}"
+            detail_contextuel=(
+                f"Demande {demande.id} rejetée. "
+                f"Motif : {motif_rejet}"
+            )
         )
 
         return redirect('demandes_en_attente')
 
     return render(request, 'agent/rejeter_demande.html', {
         'demande': demande
+    })
+
+
+def verifier_attestation(request, identifiant):
+    attestation = Attestation.objects.filter(
+        identifiant_verification=identifiant
+    ).first()
+
+    if attestation is None:
+        return render(request, 'verification/resultat_verification.html', {
+            'resultat': 'INTROUVABLE',
+            'message': "Aucune attestation ne correspond à cet identifiant.",
+            'attestation': None
+        })
+
+    VerificationAttestation.objects.create(
+        attestation=attestation,
+        resultat=attestation.statut,
+        adresse_ip=request.META.get('REMOTE_ADDR')
+    )
+
+    return render(request, 'verification/resultat_verification.html', {
+        'resultat': attestation.statut,
+        'message': "Attestation trouvée.",
+        'attestation': attestation
     })

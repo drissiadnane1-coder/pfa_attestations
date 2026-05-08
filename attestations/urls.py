@@ -8,5 +8,7 @@ urlpatterns = [
     path('agent/demandes-en-attente/', views.demandes_en_attente, name='demandes_en_attente'),
     path('agent/demande/<int:demande_id>/', views.detail_demande, name='detail_demande'),
     path('agent/demande/<int:demande_id>/valider/', views.valider_demande, name='valider_demande'),
+    
     path('agent/demande/<int:demande_id>/rejeter/', views.rejeter_demande, name='rejeter_demande'),
+    path('verification/<uuid:identifiant>/', views.verifier_attestation, name='verifier_attestation'),
 ]
