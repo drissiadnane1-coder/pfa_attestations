@@ -1,5 +1,6 @@
 import uuid
-
+from django.contrib import messages
+from .models import TypeAttestation, DemandeAttestation, Attestation, VerificationAttestation, JournalAction
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -23,7 +24,7 @@ from .models import (
     JournalAction,
 )
 from .utils import generer_pdf_attestation
-
+from django.http import FileResponse, Http404
 
 @login_required
 def deposer_demande(request):
@@ -221,4 +222,142 @@ def verifier_attestation(request, identifiant):
         'resultat': attestation.statut,
         'message': "Attestation trouvée.",
         'attestation': attestation
+    })
+
+
+@login_required
+def telecharger_attestation(request, demande_id):
+    if request.user.role != 'DEMANDEUR':
+        return redirect('redirect_by_role')
+
+    try:
+        profil = request.user.profil_demandeur
+    except ProfilDemandeur.DoesNotExist:
+        raise Http404("Profil demandeur introuvable.")
+
+    demande = get_object_or_404(
+        DemandeAttestation,
+        id=demande_id,
+        demandeur=profil,
+        statut=DemandeAttestation.StatutDemande.VALIDEE
+    )
+
+    try:
+        fichier_pdf = demande.attestation.fichier_pdf
+    except Exception:
+        raise Http404("Fichier PDF introuvable.")
+
+    return FileResponse(
+        fichier_pdf.chemin_fichier.open('rb'),
+        as_attachment=True,
+        filename=fichier_pdf.nom_fichier
+    )
+@login_required
+def liste_types_attestation(request):
+    if request.user.role != 'ADMIN':
+        return redirect('redirect_by_role')
+
+    types = TypeAttestation.objects.all().order_by('libelle')
+
+    return render(request, 'admin_app/liste_types.html', {
+        'types': types
+    })
+
+
+@login_required
+def ajouter_type_attestation(request):
+    if request.user.role != 'ADMIN':
+        return redirect('redirect_by_role')
+
+    if request.method == 'POST':
+        libelle = request.POST.get('libelle')
+        description = request.POST.get('description')
+
+        TypeAttestation.objects.create(
+            libelle=libelle,
+            description=description,
+            statut=True
+        )
+
+        JournalAction.objects.create(
+            utilisateur=request.user,
+            action=JournalAction.TypeActionJournal.GENERATION,
+            objet_concerne='TypeAttestation',
+            detail_contextuel=f"Type d'attestation ajouté : {libelle}"
+        )
+
+        return redirect('liste_types_attestation')
+
+    return render(request, 'admin_app/ajouter_type.html')
+
+
+@login_required
+def modifier_type_attestation(request, type_id):
+    if request.user.role != 'ADMIN':
+        return redirect('redirect_by_role')
+
+    type_attestation = get_object_or_404(TypeAttestation, id=type_id)
+
+    if request.method == 'POST':
+        type_attestation.libelle = request.POST.get('libelle')
+        type_attestation.description = request.POST.get('description')
+        type_attestation.save()
+
+        JournalAction.objects.create(
+            utilisateur=request.user,
+            action=JournalAction.TypeActionJournal.ARCHIVAGE,
+            objet_concerne='TypeAttestation',
+            detail_contextuel=f"Type d'attestation modifié : {type_attestation.libelle}"
+        )
+
+        return redirect('liste_types_attestation')
+
+    return render(request, 'admin_app/modifier_type.html', {
+        'type_attestation': type_attestation
+    })
+
+
+@login_required
+def changer_statut_type_attestation(request, type_id):
+    if request.user.role != 'ADMIN':
+        return redirect('redirect_by_role')
+
+    type_attestation = get_object_or_404(TypeAttestation, id=type_id)
+    type_attestation.statut = not type_attestation.statut
+    type_attestation.save()
+
+    return redirect('liste_types_attestation')
+
+
+@login_required
+def tableau_bord_admin(request):
+    if request.user.role != 'ADMIN':
+        return redirect('redirect_by_role')
+
+    total_demandes = DemandeAttestation.objects.count()
+    demandes_en_attente = DemandeAttestation.objects.filter(statut='EN_ATTENTE').count()
+    demandes_validees = DemandeAttestation.objects.filter(statut='VALIDEE').count()
+    demandes_rejetees = DemandeAttestation.objects.filter(statut='REJETEE').count()
+    total_attestations = Attestation.objects.count()
+    total_verifications = VerificationAttestation.objects.count()
+
+    return render(request, 'admin_app/tableau_bord.html', {
+        'total_demandes': total_demandes,
+        'demandes_en_attente': demandes_en_attente,
+        'demandes_validees': demandes_validees,
+        'demandes_rejetees': demandes_rejetees,
+        'total_attestations': total_attestations,
+        'total_verifications': total_verifications,
+    })
+
+
+@login_required
+def historique_actions(request):
+    if request.user.role != 'ADMIN':
+        return redirect('redirect_by_role')
+
+    actions = JournalAction.objects.all().order_by('-date_heure')
+
+    return render(request, 'admin_app/historique.html', {
+        'actions': actions
     })

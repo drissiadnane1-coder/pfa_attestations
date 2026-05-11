@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription demandeur</title>
+</head>
+<body>
+
+    <h1>Inscription demandeur</h1>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        
+        <br><br>
+
+        <label>Prénom :</label><br>
+        <input type="text" name="first_name" required>
+
+        <br><br>
+
+        <label>Nom :</label><br>
+        <input type="text" name="last_name" required>
+
+        <br><br>
+
+        <label>Email :</label><br>
+        <input type="email" name="email" required>
+
+        <br><br>
+
+        <label>Mot de passe :</label><br>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <label>Confirmer le mot de passe :</label><br>
+        <input type="password" name="password_confirm" required>
+
+        <br><br>
+
+        
+
+        <br><br>
+
+        <label>Date de naissance :</label><br>
+        <input type="date" name="date_naissance">
+
+        <br><br>
+
+        <label>Téléphone :</label><br>
+        <input type="text" name="telephone">
+
+        <br><br>
+
+        <label>Structure :</label><br>
+        <input type="text" name="structure">
+
+        <br><br>
+
+        <button type="submit">Créer mon compte</button>
+    </form>
+
+    <br>
+
+    <a href="{% url 'login' %}">J’ai déjà un compte</a>
+
+</body>
+</html>

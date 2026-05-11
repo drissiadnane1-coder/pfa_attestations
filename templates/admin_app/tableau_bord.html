@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de bord</title>
+</head>
+<body>
+
+    <h1>Tableau de bord administrateur</h1>
+
+    <ul>
+        <li>Total demandes : {{ total_demandes }}</li>
+        <li>Demandes en attente : {{ demandes_en_attente }}</li>
+        <li>Demandes validées : {{ demandes_validees }}</li>
+        <li>Demandes rejetées : {{ demandes_rejetees }}</li>
+        <li>Attestations générées : {{ total_attestations }}</li>
+        <li>Vérifications QR : {{ total_verifications }}</li>
+    </ul>
+
+    <a href="{% url 'admin_dashboard' %}">Retour dashboard</a>
+
+</body>
+</html>

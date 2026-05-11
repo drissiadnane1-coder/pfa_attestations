@@ -15,14 +15,16 @@
     <form method="POST">
         {% csrf_token %}
 
-        <label>Nom d'utilisateur :</label><br>
-        <input type="text" name="username" required><br><br>
+<label>Email :</label><br>
+<input type="email" name="email" required><br><br>
 
         <label>Mot de passe :</label><br>
         <input type="password" name="password" required><br><br>
 
         <button type="submit">Se connecter</button>
     </form>
+    <br>
+<a href="{% url 'register' %}">Créer un compte demandeur</a>
 
 </body>
 </html>

@@ -10,15 +10,13 @@
 
     <p>Bienvenue {{ request.user.username }}</p>
 
-<ul>
-    <li>
-        <a href="{% url 'demandes_en_attente' %}">
-            Consulter et traiter les demandes en attente
-        </a>
-    </li>
-    <li>Générer une attestation après validation</li>
-    <li>Consulter l’historique</li>
-</ul>
+    <ul>
+        <li>
+            <a href="{% url 'demandes_en_attente' %}">
+                Consulter et traiter les demandes en attente
+            </a>
+        </li>
+    </ul>
 
     <a href="{% url 'logout' %}">Se déconnecter</a>
 

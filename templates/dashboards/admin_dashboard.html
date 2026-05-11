@@ -11,11 +11,10 @@
     <p>Bienvenue {{ request.user.username }}</p>
 
     <ul>
-        <li>Gérer les utilisateurs</li>
-        <li>Gérer les types d’attestation</li>
-        <li>Gérer les modèles d’attestation</li>
-        <li>Consulter le tableau de bord</li>
-        <li>Consulter l’historique des actions</li>
+        <li><a href="/admin/accounts/customuser/">Gérer les utilisateurs</a></li>
+        <li><a href="{% url 'liste_types_attestation' %}">Gérer les types d’attestation</a></li>
+        <li><a href="{% url 'tableau_bord_admin' %}">Consulter le tableau de bord</a></li>
+        <li><a href="{% url 'historique_actions' %}">Consulter l’historique</a></li>
     </ul>
 
     <a href="{% url 'logout' %}">Se déconnecter</a>

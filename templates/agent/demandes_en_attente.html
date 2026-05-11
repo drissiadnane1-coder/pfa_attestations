@@ -21,7 +21,9 @@
         {% for demande in demandes %}
             <tr>
                 <td>{{ demande.id }}</td>
-                <td>{{ demande.demandeur.utilisateur.username }}</td>
+                <td>    {{ demande.demandeur.utilisateur.first_name }}
+    {{ demande.demandeur.utilisateur.last_name }}
+</td>
                 <td>{{ demande.type_attestation.libelle }}</td>
                 <td>{{ demande.date_depot }}</td>
                 <td>{{ demande.statut }}</td>

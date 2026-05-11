@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Types d’attestation</title>
+</head>
+<body>
+
+    <h1>Gestion des types d’attestation</h1>
+
+    <a href="{% url 'ajouter_type_attestation' %}">Ajouter un type</a>
+
+    <br><br>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Libellé</th>
+            <th>Description</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for type in types %}
+            <tr>
+                <td>{{ type.id }}</td>
+                <td>{{ type.libelle }}</td>
+                <td>{{ type.description }}</td>
+                <td>
+                    {% if type.statut %}
+                        Actif
+                    {% else %}
+                        Inactif
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'modifier_type_attestation' type.id %}">Modifier</a>
+                    |
+                    <a href="{% url 'changer_statut_type_attestation' type.id %}">
+                        {% if type.statut %}
+                            Désactiver
+                        {% else %}
+                            Activer
+                        {% endif %}
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">Aucun type trouvé.</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <a href="{% url 'admin_dashboard' %}">Retour dashboard</a>
+
+</body>
+</html>

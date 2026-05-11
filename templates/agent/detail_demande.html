@@ -8,25 +8,41 @@
 
     <h1>Détail de la demande</h1>
 
-    <p><strong>ID :</strong> {{ demande.id }}</p>
-    <p><strong>Demandeur :</strong> {{ demande.demandeur.utilisateur.username }}</p>
+    <h2>Informations du demandeur</h2>
+
+    <p><strong>Nom complet :</strong>
+        {{ demande.demandeur.utilisateur.first_name }}
+        {{ demande.demandeur.utilisateur.last_name }}
+    </p>
+
+    <p><strong>Email :</strong> {{ demande.demandeur.utilisateur.email }}</p>
     <p><strong>Code interne :</strong> {{ demande.demandeur.code_interne }}</p>
+    <p><strong>Date de naissance :</strong> {{ demande.demandeur.date_naissance }}</p>
+    <p><strong>Téléphone :</strong> {{ demande.demandeur.telephone }}</p>
     <p><strong>Structure :</strong> {{ demande.demandeur.structure }}</p>
-    <p><strong>Type :</strong> {{ demande.type_attestation.libelle }}</p>
-    <p><strong>Date dépôt :</strong> {{ demande.date_depot }}</p>
+
+    <hr>
+
+    <h2>Informations de la demande</h2>
+
+    <p><strong>ID :</strong> {{ demande.id }}</p>
+    <p><strong>Type d’attestation :</strong> {{ demande.type_attestation.libelle }}</p>
+    <p><strong>Date de dépôt :</strong> {{ demande.date_depot }}</p>
     <p><strong>Statut :</strong> {{ demande.statut }}</p>
     <p><strong>Commentaire :</strong> {{ demande.commentaire }}</p>
 
     <br>
 
-    <form method="POST" action="{% url 'valider_demande' demande.id %}">
-        {% csrf_token %}
-        <button type="submit">Valider la demande</button>
-    </form>
+    {% if demande.statut == "EN_ATTENTE" %}
+        <form method="POST" action="{% url 'valider_demande' demande.id %}">
+            {% csrf_token %}
+            <button type="submit">Valider la demande</button>
+        </form>
 
-    <br>
+        <br>
 
-    <a href="{% url 'rejeter_demande' demande.id %}">Rejeter la demande</a>
+        <a href="{% url 'rejeter_demande' demande.id %}">Rejeter la demande</a>
+    {% endif %}
 
     <br><br>
 

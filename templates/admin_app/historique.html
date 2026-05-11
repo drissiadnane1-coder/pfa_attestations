@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Historique</title>
+</head>
+<body>
+
+    <h1>Historique des actions</h1>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Utilisateur</th>
+            <th>Action</th>
+            <th>Date</th>
+            <th>Objet concerné</th>
+            <th>Détail</th>
+        </tr>
+
+        {% for action in actions %}
+            <tr>
+                <td>
+                    {% if action.utilisateur %}
+                        {{ action.utilisateur.username }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>{{ action.action }}</td>
+                <td>{{ action.date_heure }}</td>
+                <td>{{ action.objet_concerne }}</td>
+                <td>{{ action.detail_contextuel }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">Aucune action trouvée.</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <a href="{% url 'admin_dashboard' %}">Retour dashboard</a>
+
+</body>
+</html>

@@ -16,6 +16,7 @@
             <th>Statut</th>
             <th>Commentaire</th>
             <th>Motif de rejet</th>
+            <th>Téléchargement</th>
         </tr>
 
         {% for demande in demandes %}
@@ -33,10 +34,20 @@
                         -
                     {% endif %}
                 </td>
+
+                <td>
+                    {% if demande.statut == "VALIDEE" and demande.attestation.fichier_pdf %}
+                        <a href="{% url 'telecharger_attestation' demande.id %}">
+                            Télécharger PDF
+                        </a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="6">Aucune demande trouvée.</td>
+                <td colspan="7">Aucune demande trouvée.</td>
             </tr>
         {% endfor %}
     </table>
