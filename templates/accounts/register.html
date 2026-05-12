@@ -1,73 +1,89 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Inscription demandeur</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Inscription demandeur</h1>
+{% block title %}Inscription{% endblock %}
 
-    {% if error %}
-        <p style="color:red;">{{ error }}</p>
-    {% endif %}
+{% block content %}
 
-    <form method="POST">
-        {% csrf_token %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
 
-        
-        <br><br>
+        <div class="card shadow">
+            <div class="card-body">
 
-        <label>Prénom :</label><br>
-        <input type="text" name="first_name" required>
+                <h2 class="text-center mb-4">
+                    Création d’un compte demandeur
+                </h2>
 
-        <br><br>
+                {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endif %}
 
-        <label>Nom :</label><br>
-        <input type="text" name="last_name" required>
+                <form method="POST">
+                    {% csrf_token %}
 
-        <br><br>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Prénom</label>
+                            <input type="text" name="first_name" class="form-control" required>
+                        </div>
 
-        <label>Email :</label><br>
-        <input type="email" name="email" required>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" name="last_name" class="form-control" required>
+                        </div>
+                    </div>
 
-        <br><br>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
 
-        <label>Mot de passe :</label><br>
-        <input type="password" name="password" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
 
-        <br><br>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Confirmation mot de passe</label>
+                            <input type="password" name="password_confirm" class="form-control" required>
+                        </div>
+                    </div>
 
-        <label>Confirmer le mot de passe :</label><br>
-        <input type="password" name="password_confirm" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date de naissance</label>
+                            <input type="date" name="date_naissance" class="form-control">
+                        </div>
 
-        <br><br>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="text" name="telephone" class="form-control">
+                        </div>
+                    </div>
 
-        
+                    <div class="mb-3">
+                        <label class="form-label">Structure</label>
+                        <input type="text" name="structure" class="form-control">
+                    </div>
 
-        <br><br>
+                    <button type="submit" class="btn btn-success w-100">
+                        Créer mon compte
+                    </button>
+                </form>
 
-        <label>Date de naissance :</label><br>
-        <input type="date" name="date_naissance">
+                <div class="text-center mt-3">
+                    <a href="{% url 'login' %}">
+                        J’ai déjà un compte
+                    </a>
+                </div>
 
-        <br><br>
+            </div>
+        </div>
 
-        <label>Téléphone :</label><br>
-        <input type="text" name="telephone">
+    </div>
+</div>
 
-        <br><br>
-
-        <label>Structure :</label><br>
-        <input type="text" name="structure">
-
-        <br><br>
-
-        <button type="submit">Créer mon compte</button>
-    </form>
-
-    <br>
-
-    <a href="{% url 'login' %}">J’ai déjà un compte</a>
-
-</body>
-</html>
+{% endblock %}

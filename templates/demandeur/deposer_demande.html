@@ -1,47 +1,50 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Déposer une demande</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Déposer une demande d’attestation</h1>
+{% block title %}Déposer une demande{% endblock %}
 
-    {% if message %}
-        <p style="color:green;">{{ message }}</p>
-    {% endif %}
+{% block content %}
 
-    {% if error %}
-        <p style="color:red;">{{ error }}</p>
-    {% endif %}
+<div class="card shadow">
+    <div class="card-body">
 
-    <form method="POST">
-        {% csrf_token %}
+        <h2 class="mb-4">Déposer une demande d’attestation</h2>
 
-        <label>Type d’attestation :</label><br>
-        <select name="type_attestation" required>
-            <option value="">-- Choisir un type --</option>
-            {% for type in types %}
-                <option value="{{ type.id }}">{{ type.libelle }}</option>
-            {% endfor %}
-        </select>
+        {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
 
-        <br><br>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
 
-        <label>Commentaire :</label><br>
-        <textarea name="commentaire" rows="4" cols="40"></textarea>
+        <form method="POST">
+            {% csrf_token %}
 
-        <br><br>
+            <div class="mb-3">
+                <label class="form-label">Type d’attestation</label>
+                <select name="type_attestation" class="form-select" required>
+                    <option value="">-- Choisir un type --</option>
+                    {% for type in types %}
+                        <option value="{{ type.id }}">{{ type.libelle }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <button type="submit">Envoyer la demande</button>
-    </form>
+            <div class="mb-3">
+                <label class="form-label">Commentaire</label>
+                <textarea name="commentaire" rows="4" class="form-control"></textarea>
+            </div>
 
-    <br>
+            <button type="submit" class="btn btn-primary">
+                Envoyer la demande
+            </button>
 
-    <a href="{% url 'demandeur_dashboard' %}">Retour au dashboard</a>
-    |
-    <a href="{% url 'mes_demandes' %}">Mes demandes</a>
+            <a href="{% url 'demandeur_dashboard' %}" class="btn btn-secondary">
+                Retour
+            </a>
+        </form>
 
-</body>
-</html>
+    </div>
+</div>
+
+{% endblock %}

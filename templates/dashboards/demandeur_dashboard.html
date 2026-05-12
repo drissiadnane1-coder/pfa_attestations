@@ -1,24 +1,35 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Espace Demandeur</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Espace Demandeur</h1>
+{% block title %}Espace Demandeur{% endblock %}
 
-    <p>Bienvenue {{ request.user.username }}</p>
+{% block content %}
 
-    <ul>
-<ul>
-    <li><a href="{% url 'deposer_demande' %}">Déposer une demande d’attestation</a></li>
-    <li><a href="{% url 'mes_demandes' %}">Consulter l’état de mes demandes</a></li>
-  
-</ul>
-    </ul>
+<div class="card shadow">
+    <div class="card-body">
 
-    <a href="{% url 'logout' %}">Se déconnecter</a>
+        <h2 class="mb-4">
+            Espace Demandeur
+        </h2>
 
-</body>
-</html>
+        <p class="text-muted">
+            Bienvenue {{ request.user.first_name }} {{ request.user.last_name }}
+        </p>
+
+        <div class="d-grid gap-3 mt-4">
+
+            <a href="{% url 'deposer_demande' %}"
+               class="btn btn-primary btn-lg">
+                Déposer une demande d’attestation
+            </a>
+
+            <a href="{% url 'mes_demandes' %}"
+               class="btn btn-outline-primary btn-lg">
+                Consulter mes demandes et télécharger mes attestations
+            </a>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

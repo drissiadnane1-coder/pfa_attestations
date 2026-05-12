@@ -1,23 +1,71 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Tableau de bord</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Tableau de bord administrateur</h1>
+{% block title %}Tableau de bord{% endblock %}
 
-    <ul>
-        <li>Total demandes : {{ total_demandes }}</li>
-        <li>Demandes en attente : {{ demandes_en_attente }}</li>
-        <li>Demandes validées : {{ demandes_validees }}</li>
-        <li>Demandes rejetées : {{ demandes_rejetees }}</li>
-        <li>Attestations générées : {{ total_attestations }}</li>
-        <li>Vérifications QR : {{ total_verifications }}</li>
-    </ul>
+{% block content %}
 
-    <a href="{% url 'admin_dashboard' %}">Retour dashboard</a>
+<h2 class="mb-4">Tableau de bord administrateur</h2>
 
-</body>
-</html>
+<div class="row g-3">
+
+    <div class="col-md-4">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Total demandes</h5>
+                <h2>{{ total_demandes }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>En attente</h5>
+                <h2>{{ demandes_en_attente }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Validées</h5>
+                <h2>{{ demandes_validees }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Rejetées</h5>
+                <h2>{{ demandes_rejetees }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Attestations générées</h5>
+                <h2>{{ total_attestations }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Vérifications QR</h5>
+                <h2>{{ total_verifications }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mt-4">
+    Retour dashboard
+</a>
+
+{% endblock %}

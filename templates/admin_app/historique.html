@@ -1,46 +1,57 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Historique</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Historique des actions</h1>
+{% block title %}Historique{% endblock %}
 
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Utilisateur</th>
-            <th>Action</th>
-            <th>Date</th>
-            <th>Objet concerné</th>
-            <th>Détail</th>
-        </tr>
+{% block content %}
 
-        {% for action in actions %}
-            <tr>
-                <td>
-                    {% if action.utilisateur %}
-                        {{ action.utilisateur.username }}
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
-                <td>{{ action.action }}</td>
-                <td>{{ action.date_heure }}</td>
-                <td>{{ action.objet_concerne }}</td>
-                <td>{{ action.detail_contextuel }}</td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="5">Aucune action trouvée.</td>
-            </tr>
-        {% endfor %}
-    </table>
+<div class="card shadow">
+    <div class="card-body">
 
-    <br>
+        <h2 class="mb-4">Historique des actions</h2>
 
-    <a href="{% url 'admin_dashboard' %}">Retour dashboard</a>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Action</th>
+                        <th>Date</th>
+                        <th>Objet concerné</th>
+                        <th>Détail</th>
+                    </tr>
+                </thead>
 
-</body>
-</html>
+                <tbody>
+                    {% for action in actions %}
+                        <tr>
+                            <td>
+                                {% if action.utilisateur %}
+                                    {{ action.utilisateur.first_name }} {{ action.utilisateur.last_name }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>{{ action.action }}</td>
+                            <td>{{ action.date_heure }}</td>
+                            <td>{{ action.objet_concerne|default:"-" }}</td>
+                            <td>{{ action.detail_contextuel|default:"-" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                Aucune action trouvée.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
+            Retour dashboard
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

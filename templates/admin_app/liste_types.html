@@ -1,60 +1,71 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Types d’attestation</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Gestion des types d’attestation</h1>
+{% block title %}Types d’attestation{% endblock %}
 
-    <a href="{% url 'ajouter_type_attestation' %}">Ajouter un type</a>
+{% block content %}
 
-    <br><br>
+<div class="card shadow">
+    <div class="card-body">
 
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>ID</th>
-            <th>Libellé</th>
-            <th>Description</th>
-            <th>Statut</th>
-            <th>Actions</th>
-        </tr>
+        <h2 class="mb-4">Gestion des types d’attestation</h2>
 
-        {% for type in types %}
-            <tr>
-                <td>{{ type.id }}</td>
-                <td>{{ type.libelle }}</td>
-                <td>{{ type.description }}</td>
-                <td>
-                    {% if type.statut %}
-                        Actif
-                    {% else %}
-                        Inactif
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{% url 'modifier_type_attestation' type.id %}">Modifier</a>
-                    |
-                    <a href="{% url 'changer_statut_type_attestation' type.id %}">
-                        {% if type.statut %}
-                            Désactiver
-                        {% else %}
-                            Activer
-                        {% endif %}
-                    </a>
-                </td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="5">Aucun type trouvé.</td>
-            </tr>
-        {% endfor %}
-    </table>
+        <a href="{% url 'ajouter_type_attestation' %}" class="btn btn-primary mb-3">
+            Ajouter un type
+        </a>
 
-    <br>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Libellé</th>
+                        <th>Description</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-    <a href="{% url 'admin_dashboard' %}">Retour dashboard</a>
+                <tbody>
+                    {% for type in types %}
+                        <tr>
+                            <td>{{ type.id }}</td>
+                            <td>{{ type.libelle }}</td>
+                            <td>{{ type.description|default:"-" }}</td>
+                            <td>
+                                {% if type.statut %}
+                                    <span class="badge bg-success">Actif</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactif</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'modifier_type_attestation' type.id %}" class="btn btn-sm btn-warning">
+                                    Modifier
+                                </a>
 
-</body>
-</html>
+                                <a href="{% url 'changer_statut_type_attestation' type.id %}" class="btn btn-sm btn-outline-dark">
+                                    {% if type.statut %}
+                                        Désactiver
+                                    {% else %}
+                                        Activer
+                                    {% endif %}
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">Aucun type trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
+            Retour dashboard
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

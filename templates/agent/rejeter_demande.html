@@ -1,37 +1,40 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Rejeter la demande</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Rejeter la demande n°{{ demande.id }}</h1>
+{% block title %}Rejeter demande{% endblock %}
 
-    <p><strong>Demandeur :</strong> {{ demande.demandeur.utilisateur.username }}</p>
-    <p><strong>Type :</strong> {{ demande.type_attestation.libelle }}</p>
-    <p><strong>Statut actuel :</strong> {{ demande.statut }}</p>
+{% block content %}
 
-    <form method="POST">
-        {% csrf_token %}
+<div class="card shadow">
+    <div class="card-body">
 
-        <label for="motif_rejet">Motif du rejet :</label><br>
-        <textarea 
-            id="motif_rejet"
-            name="motif_rejet" 
-            rows="5" 
-            cols="50" 
-            required
-        ></textarea>
+        <h2 class="mb-4">Rejeter la demande n°{{ demande.id }}</h2>
 
-        <br><br>
+        <p><strong>Demandeur :</strong>
+            {{ demande.demandeur.utilisateur.first_name }}
+            {{ demande.demandeur.utilisateur.last_name }}
+        </p>
 
-        <button type="submit">Confirmer le rejet</button>
-    </form>
+        <p><strong>Type :</strong> {{ demande.type_attestation.libelle }}</p>
+        <p><strong>Statut actuel :</strong> {{ demande.statut }}</p>
 
-    <br>
+        <form method="POST">
+            {% csrf_token %}
 
-    <a href="{% url 'detail_demande' demande.id %}">Annuler</a>
+            <div class="mb-3">
+                <label class="form-label">Motif du rejet</label>
+                <textarea name="motif_rejet" rows="5" class="form-control" required></textarea>
+            </div>
 
-</body>
-</html>
+            <button type="submit" class="btn btn-danger">
+                Confirmer le rejet
+            </button>
+
+            <a href="{% url 'detail_demande' demande.id %}" class="btn btn-secondary">
+                Annuler
+            </a>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

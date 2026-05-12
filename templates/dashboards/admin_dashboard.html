@@ -1,23 +1,37 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Espace Administrateur</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Espace Administrateur</h1>
+{% block title %}Espace Administrateur{% endblock %}
 
-    <p>Bienvenue {{ request.user.username }}</p>
+{% block content %}
 
-    <ul>
-        <li><a href="/admin/accounts/customuser/">Gérer les utilisateurs</a></li>
-        <li><a href="{% url 'liste_types_attestation' %}">Gérer les types d’attestation</a></li>
-        <li><a href="{% url 'tableau_bord_admin' %}">Consulter le tableau de bord</a></li>
-        <li><a href="{% url 'historique_actions' %}">Consulter l’historique</a></li>
-    </ul>
+<div class="card shadow">
+    <div class="card-body">
 
-    <a href="{% url 'logout' %}">Se déconnecter</a>
+        <h2 class="mb-4">Espace Administrateur</h2>
 
-</body>
-</html>
+        <p class="text-muted">
+            Bienvenue {{ request.user.first_name }} {{ request.user.last_name }}
+        </p>
+
+        <div class="d-grid gap-3 mt-4">
+            <a href="/admin/accounts/customuser/" class="btn btn-primary btn-lg">
+                Gérer les utilisateurs
+            </a>
+
+            <a href="{% url 'liste_types_attestation' %}" class="btn btn-outline-primary btn-lg">
+                Gérer les types d’attestation
+            </a>
+
+            <a href="{% url 'tableau_bord_admin' %}" class="btn btn-outline-success btn-lg">
+                Consulter le tableau de bord
+            </a>
+
+            <a href="{% url 'historique_actions' %}" class="btn btn-outline-dark btn-lg">
+                Consulter l’historique
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

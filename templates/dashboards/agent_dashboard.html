@@ -1,24 +1,25 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Espace Agent Administratif</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Espace Agent Administratif</h1>
+{% block title %}Espace Agent{% endblock %}
 
-    <p>Bienvenue {{ request.user.username }}</p>
+{% block content %}
 
-    <ul>
-        <li>
-            <a href="{% url 'demandes_en_attente' %}">
+<div class="card shadow">
+    <div class="card-body">
+
+        <h2 class="mb-4">Espace Agent Administratif</h2>
+
+        <p class="text-muted">
+            Bienvenue {{ request.user.first_name }} {{ request.user.last_name }}
+        </p>
+
+        <div class="d-grid gap-3 mt-4">
+            <a href="{% url 'demandes_en_attente' %}" class="btn btn-primary btn-lg">
                 Consulter et traiter les demandes en attente
             </a>
-        </li>
-    </ul>
+        </div>
 
-    <a href="{% url 'logout' %}">Se déconnecter</a>
+    </div>
+</div>
 
-</body>
-</html>
+{% endblock %}

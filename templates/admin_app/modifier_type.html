@@ -1,32 +1,37 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Modifier type</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Modifier le type d’attestation</h1>
+{% block title %}Modifier type{% endblock %}
 
-    <form method="POST">
-        {% csrf_token %}
+{% block content %}
 
-        <label>Libellé :</label><br>
-        <input type="text" name="libelle" value="{{ type_attestation.libelle }}" required>
+<div class="card shadow">
+    <div class="card-body">
 
-        <br><br>
+        <h2 class="mb-4">Modifier le type d’attestation</h2>
 
-        <label>Description :</label><br>
-        <textarea name="description" rows="5" cols="50">{{ type_attestation.description }}</textarea>
+        <form method="POST">
+            {% csrf_token %}
 
-        <br><br>
+            <div class="mb-3">
+                <label class="form-label">Libellé</label>
+                <input type="text" name="libelle" value="{{ type_attestation.libelle }}" class="form-control" required>
+            </div>
 
-        <button type="submit">Modifier</button>
-    </form>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" rows="5" class="form-control">{{ type_attestation.description }}</textarea>
+            </div>
 
-    <br>
+            <button type="submit" class="btn btn-warning">
+                Modifier
+            </button>
 
-    <a href="{% url 'liste_types_attestation' %}">Retour</a>
+            <a href="{% url 'liste_types_attestation' %}" class="btn btn-secondary">
+                Retour
+            </a>
+        </form>
 
-</body>
-</html>
+    </div>
+</div>
+
+{% endblock %}

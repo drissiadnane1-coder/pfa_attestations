@@ -1,33 +1,69 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Vérification attestation</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Résultat de vérification</h1>
+{% block title %}Vérification attestation{% endblock %}
 
-    {% if resultat == "VALIDE" %}
-        <h2 style="color:green;">Attestation valide</h2>
-    {% elif resultat == "ANNULEE" %}
-        <h2 style="color:orange;">Attestation annulée</h2>
-    {% elif resultat == "EXPIREE" %}
-        <h2 style="color:red;">Attestation expirée</h2>
-    {% else %}
-        <h2 style="color:red;">Attestation introuvable</h2>
-    {% endif %}
+{% block content %}
 
-    <p>{{ message }}</p>
+<div class="card shadow">
+    <div class="card-body text-center">
 
-    {% if attestation %}
-        <p><strong>Numéro :</strong> {{ attestation.numero_unique }}</p>
-        <p><strong>Type :</strong> {{ attestation.demande.type_attestation.libelle }}</p>
-        <p><strong>Demandeur :</strong> {{ attestation.demande.demandeur.utilisateur.first_name }} {{ attestation.demande.demandeur.utilisateur.last_name }}</p>
-        <p><strong>Code interne :</strong> {{ attestation.demande.demandeur.code_interne }}</p>
-        <p><strong>Structure :</strong> {{ attestation.demande.demandeur.structure }}</p>
-        <p><strong>Date génération :</strong> {{ attestation.date_generation }}</p>
-    {% endif %}
+        <h2 class="mb-4">Résultat de vérification</h2>
 
-</body>
-</html>
+        {% if resultat == "VALIDE" %}
+            <div class="alert alert-success">
+                <h4>Attestation valide</h4>
+            </div>
+        {% elif resultat == "ANNULEE" %}
+            <div class="alert alert-warning">
+                <h4>Attestation annulée</h4>
+            </div>
+        {% elif resultat == "EXPIREE" %}
+            <div class="alert alert-danger">
+                <h4>Attestation expirée</h4>
+            </div>
+        {% else %}
+            <div class="alert alert-danger">
+                <h4>Attestation introuvable</h4>
+            </div>
+        {% endif %}
+
+        <p>{{ message }}</p>
+
+        {% if attestation %}
+            <div class="text-start mt-4">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Numéro</th>
+                        <td>{{ attestation.numero_unique }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ attestation.demande.type_attestation.libelle }}</td>
+                    </tr>
+                    <tr>
+                        <th>Demandeur</th>
+                        <td>
+                            {{ attestation.demande.demandeur.utilisateur.first_name }}
+                            {{ attestation.demande.demandeur.utilisateur.last_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Code interne</th>
+                        <td>{{ attestation.demande.demandeur.code_interne }}</td>
+                    </tr>
+                    <tr>
+                        <th>Structure</th>
+                        <td>{{ attestation.demande.demandeur.structure }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date génération</th>
+                        <td>{{ attestation.date_generation }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

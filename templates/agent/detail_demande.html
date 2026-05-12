@@ -1,52 +1,55 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Détail demande</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Détail de la demande</h1>
+{% block title %}Détail demande{% endblock %}
 
-    <h2>Informations du demandeur</h2>
+{% block content %}
 
-    <p><strong>Nom complet :</strong>
-        {{ demande.demandeur.utilisateur.first_name }}
-        {{ demande.demandeur.utilisateur.last_name }}
-    </p>
+<div class="card shadow mb-4">
+    <div class="card-body">
 
-    <p><strong>Email :</strong> {{ demande.demandeur.utilisateur.email }}</p>
-    <p><strong>Code interne :</strong> {{ demande.demandeur.code_interne }}</p>
-    <p><strong>Date de naissance :</strong> {{ demande.demandeur.date_naissance }}</p>
-    <p><strong>Téléphone :</strong> {{ demande.demandeur.telephone }}</p>
-    <p><strong>Structure :</strong> {{ demande.demandeur.structure }}</p>
+        <h2 class="mb-4">Détail de la demande</h2>
 
-    <hr>
+        <h4>Informations du demandeur</h4>
 
-    <h2>Informations de la demande</h2>
+        <p><strong>Nom complet :</strong>
+            {{ demande.demandeur.utilisateur.first_name }}
+            {{ demande.demandeur.utilisateur.last_name }}
+        </p>
 
-    <p><strong>ID :</strong> {{ demande.id }}</p>
-    <p><strong>Type d’attestation :</strong> {{ demande.type_attestation.libelle }}</p>
-    <p><strong>Date de dépôt :</strong> {{ demande.date_depot }}</p>
-    <p><strong>Statut :</strong> {{ demande.statut }}</p>
-    <p><strong>Commentaire :</strong> {{ demande.commentaire }}</p>
+        <p><strong>Email :</strong> {{ demande.demandeur.utilisateur.email }}</p>
+        <p><strong>Code interne :</strong> {{ demande.demandeur.code_interne }}</p>
+        <p><strong>Date de naissance :</strong> {{ demande.demandeur.date_naissance }}</p>
+        <p><strong>Téléphone :</strong> {{ demande.demandeur.telephone }}</p>
+        <p><strong>Structure :</strong> {{ demande.demandeur.structure }}</p>
 
-    <br>
+        <hr>
 
-    {% if demande.statut == "EN_ATTENTE" %}
-        <form method="POST" action="{% url 'valider_demande' demande.id %}">
-            {% csrf_token %}
-            <button type="submit">Valider la demande</button>
-        </form>
+        <h4>Informations de la demande</h4>
 
-        <br>
+        <p><strong>ID :</strong> {{ demande.id }}</p>
+        <p><strong>Type d’attestation :</strong> {{ demande.type_attestation.libelle }}</p>
+        <p><strong>Date de dépôt :</strong> {{ demande.date_depot }}</p>
+        <p><strong>Statut :</strong> {{ demande.statut }}</p>
+        <p><strong>Commentaire :</strong> {{ demande.commentaire|default:"-" }}</p>
 
-        <a href="{% url 'rejeter_demande' demande.id %}">Rejeter la demande</a>
-    {% endif %}
+        {% if demande.statut == "EN_ATTENTE" %}
+            <form method="POST" action="{% url 'valider_demande' demande.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">
+                    Valider la demande
+                </button>
+            </form>
 
-    <br><br>
+            <a href="{% url 'rejeter_demande' demande.id %}" class="btn btn-danger">
+                Rejeter la demande
+            </a>
+        {% endif %}
 
-    <a href="{% url 'demandes_en_attente' %}">Retour aux demandes</a>
+        <a href="{% url 'demandes_en_attente' %}" class="btn btn-secondary">
+            Retour
+        </a>
 
-</body>
-</html>
+    </div>
+</div>
+
+{% endblock %}

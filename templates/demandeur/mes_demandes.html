@@ -1,62 +1,87 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Mes demandes</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Mes demandes d’attestation</h1>
+{% block title %}Mes demandes{% endblock %}
 
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>ID</th>
-            <th>Type</th>
-            <th>Date dépôt</th>
-            <th>Statut</th>
-            <th>Commentaire</th>
-            <th>Motif de rejet</th>
-            <th>Téléchargement</th>
-        </tr>
+{% block content %}
 
-        {% for demande in demandes %}
-            <tr>
-                <td>{{ demande.id }}</td>
-                <td>{{ demande.type_attestation.libelle }}</td>
-                <td>{{ demande.date_depot }}</td>
-                <td>{{ demande.statut }}</td>
-                <td>{{ demande.commentaire }}</td>
+<div class="card shadow">
+    <div class="card-body">
 
-                <td>
-                    {% if demande.statut == "REJETEE" %}
-                        {{ demande.motif_rejet }}
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
+        <h2 class="mb-4">Mes demandes d’attestation</h2>
 
-                <td>
-                    {% if demande.statut == "VALIDEE" and demande.attestation.fichier_pdf %}
-                        <a href="{% url 'telecharger_attestation' demande.id %}">
-                            Télécharger PDF
-                        </a>
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="7">Aucune demande trouvée.</td>
-            </tr>
-        {% endfor %}
-    </table>
+        <a href="{% url 'deposer_demande' %}" class="btn btn-primary mb-3">
+            Déposer une nouvelle demande
+        </a>
 
-    <br>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Date dépôt</th>
+                        <th>Statut</th>
+                        <th>Commentaire</th>
+                        <th>Motif de rejet</th>
+                        <th>Téléchargement</th>
+                    </tr>
+                </thead>
 
-    <a href="{% url 'deposer_demande' %}">Déposer une nouvelle demande</a>
-    |
-    <a href="{% url 'demandeur_dashboard' %}">Retour au dashboard</a>
+                <tbody>
+                    {% for demande in demandes %}
+                        <tr>
+                            <td>{{ demande.id }}</td>
+                            <td>{{ demande.type_attestation.libelle }}</td>
+                            <td>{{ demande.date_depot }}</td>
 
-</body>
-</html>
+                            <td>
+                                {% if demande.statut == "VALIDEE" %}
+                                    <span class="badge bg-success">Validée</span>
+                                {% elif demande.statut == "REJETEE" %}
+                                    <span class="badge bg-danger">Rejetée</span>
+                                {% elif demande.statut == "EN_ATTENTE" %}
+                                    <span class="badge bg-warning text-dark">En attente</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ demande.statut }}</span>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ demande.commentaire|default:"-" }}</td>
+
+                            <td>
+                                {% if demande.statut == "REJETEE" %}
+                                    {{ demande.motif_rejet }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if demande.statut == "VALIDEE" and demande.attestation.fichier_pdf %}
+                                    <a href="{% url 'telecharger_attestation' demande.id %}" class="btn btn-sm btn-success">
+                                        Télécharger PDF
+                                    </a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">
+                                Aucune demande trouvée.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'demandeur_dashboard' %}" class="btn btn-secondary">
+            Retour au dashboard
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}
