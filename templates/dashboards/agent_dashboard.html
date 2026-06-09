@@ -3,23 +3,25 @@
 {% block title %}Espace Agent{% endblock %}
 
 {% block content %}
+<div class="surface p-4 p-md-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8 text-center py-lg-4">
+            <span class="page-kicker">Espace agent</span>
+            <h1 class="page-title display-6 mt-2 mb-3">Traitement des demandes</h1>
+            <p class="text-muted-app fs-5 mb-4">
+                Bienvenue {{ request.user.first_name }} {{ request.user.last_name }}. Votre espace centralise les dossiers à traiter et facilite la validation des attestations.
+            </p>
 
-<div class="card shadow">
-    <div class="card-body">
-
-        <h2 class="mb-4">Espace Agent Administratif</h2>
-
-        <p class="text-muted">
-            Bienvenue {{ request.user.first_name }} {{ request.user.last_name }}
-        </p>
-
-        <div class="d-grid gap-3 mt-4">
-            <a href="{% url 'demandes_en_attente' %}" class="btn btn-primary btn-lg">
-                Consulter et traiter les demandes en attente
-            </a>
+            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3">
+                <a href="{% url 'demandes_en_attente' %}" class="btn btn-primary btn-lg px-4">
+                    Voir les demandes en attente
+                </a>
+                <span class="d-inline-flex align-items-center gap-2 text-muted-app">
+                    <span class="agent-status-dot"></span>
+                    Session agent active
+                </span>
+            </div>
         </div>
-
     </div>
 </div>
-
 {% endblock %}

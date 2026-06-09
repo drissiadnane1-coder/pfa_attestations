@@ -3,85 +3,85 @@
 {% block title %}Mes demandes{% endblock %}
 
 {% block content %}
-
-<div class="card shadow">
-    <div class="card-body">
-
-        <h2 class="mb-4">Mes demandes d’attestation</h2>
-
-        <a href="{% url 'deposer_demande' %}" class="btn btn-primary mb-3">
-            Déposer une nouvelle demande
-        </a>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-primary">
-                    <tr>
-                        <th>ID</th>
-                        <th>Type</th>
-                        <th>Date dépôt</th>
-                        <th>Statut</th>
-                        <th>Commentaire</th>
-                        <th>Motif de rejet</th>
-                        <th>Téléchargement</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for demande in demandes %}
-                        <tr>
-                            <td>{{ demande.id }}</td>
-                            <td>{{ demande.type_attestation.libelle }}</td>
-                            <td>{{ demande.date_depot }}</td>
-
-                            <td>
-                                {% if demande.statut == "VALIDEE" %}
-                                    <span class="badge bg-success">Validée</span>
-                                {% elif demande.statut == "REJETEE" %}
-                                    <span class="badge bg-danger">Rejetée</span>
-                                {% elif demande.statut == "EN_ATTENTE" %}
-                                    <span class="badge bg-warning text-dark">En attente</span>
-                                {% else %}
-                                    <span class="badge bg-secondary">{{ demande.statut }}</span>
-                                {% endif %}
-                            </td>
-
-                            <td>{{ demande.commentaire|default:"-" }}</td>
-
-                            <td>
-                                {% if demande.statut == "REJETEE" %}
-                                    {{ demande.motif_rejet }}
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </td>
-
-                            <td>
-                                {% if demande.statut == "VALIDEE" and demande.attestation.fichier_pdf %}
-                                    <a href="{% url 'telecharger_attestation' demande.id %}" class="btn btn-sm btn-success">
-                                        Télécharger PDF
-                                    </a>
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="7" class="text-center">
-                                Aucune demande trouvée.
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<div class="surface p-4 p-md-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+        <div>
+            <span class="page-kicker">Suivi personnel</span>
+            <h1 class="page-title mt-2 mb-2">Mes demandes d’attestation</h1>
+            <p class="text-muted-app mb-0">Consultez l’état de vos demandes et récupérez vos attestations validées.</p>
         </div>
-
-        <a href="{% url 'demandeur_dashboard' %}" class="btn btn-secondary">
-            Retour au dashboard
-        </a>
-
+        <div class="align-self-md-start">
+            <a href="{% url 'deposer_demande' %}" class="btn btn-primary">
+                Nouvelle demande
+            </a>
+        </div>
     </div>
-</div>
 
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Date dépôt</th>
+                    <th>Statut</th>
+                    <th>Commentaire</th>
+                    <th>Motif de rejet</th>
+                    <th>Téléchargement</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for demande in demandes %}
+                    <tr>
+                        <td class="fw-semibold">#{{ demande.id }}</td>
+                        <td>{{ demande.type_attestation.libelle }}</td>
+                        <td>{{ demande.date_depot }}</td>
+                        <td>
+                            {% if demande.statut == "VALIDEE" %}
+                                <span class="badge bg-success">Validée</span>
+                            {% elif demande.statut == "REJETEE" %}
+                                <span class="badge bg-danger">Rejetée</span>
+                            {% elif demande.statut == "EN_ATTENTE" %}
+                                <span class="badge bg-warning text-dark">En attente</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ demande.statut }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ demande.commentaire|default:"-" }}</td>
+                        <td>
+                            {% if demande.statut == "REJETEE" %}
+                                {{ demande.motif_rejet }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if demande.statut == "VALIDEE" and demande.attestation.fichier_pdf %}
+                                <a href="{% url 'telecharger_attestation' demande.id %}" class="btn btn-sm btn-success">
+                                    Télécharger PDF
+                                </a>
+                            {% else %}
+                                <span class="text-muted-app">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state text-center p-4">
+                                <h5 class="fw-bold">Aucune demande trouvée</h5>
+                                <p class="text-muted-app mb-0">Vos futures demandes apparaîtront ici.</p>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{% url 'demandeur_dashboard' %}" class="btn btn-outline-secondary mt-4">
+        Retour au dashboard
+    </a>
+</div>
 {% endblock %}

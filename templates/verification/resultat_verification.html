@@ -3,67 +3,75 @@
 {% block title %}Vérification attestation{% endblock %}
 
 {% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="surface p-4 p-md-5 text-center">
+            <span class="page-kicker">Contrôle public</span>
+            <h1 class="page-title mt-2 mb-3">Résultat de vérification</h1>
 
-<div class="card shadow">
-    <div class="card-body text-center">
+            {% if resultat == "VALIDE" %}
+                <div class="alert alert-success border-0 rounded-4 py-4">
+                    <h3 class="fw-bold mb-1">Attestation valide</h3>
+                    <p class="mb-0">{{ message }}</p>
+                </div>
+            {% elif resultat == "ANNULEE" %}
+                <div class="alert alert-warning border-0 rounded-4 py-4">
+                    <h3 class="fw-bold mb-1">Attestation annulée</h3>
+                    <p class="mb-0">{{ message }}</p>
+                </div>
+            {% elif resultat == "EXPIREE" %}
+                <div class="alert alert-danger border-0 rounded-4 py-4">
+                    <h3 class="fw-bold mb-1">Attestation expirée</h3>
+                    <p class="mb-0">{{ message }}</p>
+                </div>
+            {% else %}
+                <div class="alert alert-danger border-0 rounded-4 py-4">
+                    <h3 class="fw-bold mb-1">Attestation introuvable</h3>
+                    <p class="mb-0">{{ message }}</p>
+                </div>
+            {% endif %}
 
-        <h2 class="mb-4">Résultat de vérification</h2>
-
-        {% if resultat == "VALIDE" %}
-            <div class="alert alert-success">
-                <h4>Attestation valide</h4>
-            </div>
-        {% elif resultat == "ANNULEE" %}
-            <div class="alert alert-warning">
-                <h4>Attestation annulée</h4>
-            </div>
-        {% elif resultat == "EXPIREE" %}
-            <div class="alert alert-danger">
-                <h4>Attestation expirée</h4>
-            </div>
-        {% else %}
-            <div class="alert alert-danger">
-                <h4>Attestation introuvable</h4>
-            </div>
-        {% endif %}
-
-        <p>{{ message }}</p>
-
-        {% if attestation %}
-            <div class="text-start mt-4">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Numéro</th>
-                        <td>{{ attestation.numero_unique }}</td>
-                    </tr>
-                    <tr>
-                        <th>Type</th>
-                        <td>{{ attestation.demande.type_attestation.libelle }}</td>
-                    </tr>
-                    <tr>
-                        <th>Demandeur</th>
-                        <td>
-                            {{ attestation.demande.demandeur.utilisateur.first_name }}
-                            {{ attestation.demande.demandeur.utilisateur.last_name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Code interne</th>
-                        <td>{{ attestation.demande.demandeur.code_interne }}</td>
-                    </tr>
-                    <tr>
-                        <th>Structure</th>
-                        <td>{{ attestation.demande.demandeur.structure }}</td>
-                    </tr>
-                    <tr>
-                        <th>Date génération</th>
-                        <td>{{ attestation.date_generation }}</td>
-                    </tr>
-                </table>
-            </div>
-        {% endif %}
-
+            {% if attestation %}
+                <div class="text-start mt-4">
+                    <div class="metric-card p-4">
+                        <h4 class="fw-bold mb-3">Informations de l’attestation</h4>
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th>Numéro</th>
+                                        <td>{{ attestation.numero_unique }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Type</th>
+                                        <td>{{ attestation.demande.type_attestation.libelle }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Demandeur</th>
+                                        <td>
+                                            {{ attestation.demande.demandeur.utilisateur.first_name }}
+                                            {{ attestation.demande.demandeur.utilisateur.last_name }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Code interne</th>
+                                        <td>{{ attestation.demande.demandeur.code_interne }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Structure</th>
+                                        <td>{{ attestation.demande.demandeur.structure }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date génération</th>
+                                        <td>{{ attestation.date_generation }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </div>
 </div>
-
 {% endblock %}

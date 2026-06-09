@@ -3,53 +3,79 @@
 {% block title %}Détail demande{% endblock %}
 
 {% block content %}
+<div class="surface p-4 p-md-5">
+    <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+        <div>
+            <span class="page-kicker">Dossier #{{ demande.id }}</span>
+            <h1 class="page-title mt-2 mb-2">Détail de la demande</h1>
+            <p class="text-muted-app mb-0">Vérifiez les informations du demandeur avant de prendre une décision.</p>
+        </div>
+        <div class="align-self-lg-start">
+            {% if demande.statut == "EN_ATTENTE" %}
+                <span class="badge bg-warning text-dark">En attente</span>
+            {% else %}
+                <span class="badge bg-secondary">{{ demande.statut }}</span>
+            {% endif %}
+        </div>
+    </div>
 
-<div class="card shadow mb-4">
-    <div class="card-body">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="metric-card p-4 h-100">
+                <h4 class="fw-bold mb-3">Demandeur</h4>
+                <dl class="row mb-0">
+                    <dt class="col-sm-5 text-muted-app">Nom complet</dt>
+                    <dd class="col-sm-7">{{ demande.demandeur.utilisateur.first_name }} {{ demande.demandeur.utilisateur.last_name }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Email</dt>
+                    <dd class="col-sm-7">{{ demande.demandeur.utilisateur.email }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Code interne</dt>
+                    <dd class="col-sm-7">{{ demande.demandeur.code_interne }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Date naissance</dt>
+                    <dd class="col-sm-7">{{ demande.demandeur.date_naissance }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Téléphone</dt>
+                    <dd class="col-sm-7">{{ demande.demandeur.telephone }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Structure</dt>
+                    <dd class="col-sm-7">{{ demande.demandeur.structure }}</dd>
+                </dl>
+            </div>
+        </div>
 
-        <h2 class="mb-4">Détail de la demande</h2>
+        <div class="col-lg-6">
+            <div class="metric-card p-4 h-100">
+                <h4 class="fw-bold mb-3">Demande</h4>
+                <dl class="row mb-0">
+                    <dt class="col-sm-5 text-muted-app">ID</dt>
+                    <dd class="col-sm-7">#{{ demande.id }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Type</dt>
+                    <dd class="col-sm-7">{{ demande.type_attestation.libelle }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Date dépôt</dt>
+                    <dd class="col-sm-7">{{ demande.date_depot }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Statut</dt>
+                    <dd class="col-sm-7">{{ demande.statut }}</dd>
+                    <dt class="col-sm-5 text-muted-app">Commentaire</dt>
+                    <dd class="col-sm-7">{{ demande.commentaire|default:"-" }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
 
-        <h4>Informations du demandeur</h4>
-
-        <p><strong>Nom complet :</strong>
-            {{ demande.demandeur.utilisateur.first_name }}
-            {{ demande.demandeur.utilisateur.last_name }}
-        </p>
-
-        <p><strong>Email :</strong> {{ demande.demandeur.utilisateur.email }}</p>
-        <p><strong>Code interne :</strong> {{ demande.demandeur.code_interne }}</p>
-        <p><strong>Date de naissance :</strong> {{ demande.demandeur.date_naissance }}</p>
-        <p><strong>Téléphone :</strong> {{ demande.demandeur.telephone }}</p>
-        <p><strong>Structure :</strong> {{ demande.demandeur.structure }}</p>
-
-        <hr>
-
-        <h4>Informations de la demande</h4>
-
-        <p><strong>ID :</strong> {{ demande.id }}</p>
-        <p><strong>Type d’attestation :</strong> {{ demande.type_attestation.libelle }}</p>
-        <p><strong>Date de dépôt :</strong> {{ demande.date_depot }}</p>
-        <p><strong>Statut :</strong> {{ demande.statut }}</p>
-        <p><strong>Commentaire :</strong> {{ demande.commentaire|default:"-" }}</p>
-
+    <div class="d-flex flex-column flex-sm-row gap-2 mt-4">
         {% if demande.statut == "EN_ATTENTE" %}
-            <form method="POST" action="{% url 'valider_demande' demande.id %}" class="d-inline">
+            <form method="POST" action="{% url 'valider_demande' demande.id %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-success btn-lg">
                     Valider la demande
                 </button>
             </form>
 
-            <a href="{% url 'rejeter_demande' demande.id %}" class="btn btn-danger">
+            <a href="{% url 'rejeter_demande' demande.id %}" class="btn btn-danger btn-lg">
                 Rejeter la demande
             </a>
         {% endif %}
 
-        <a href="{% url 'demandes_en_attente' %}" class="btn btn-secondary">
+        <a href="{% url 'demandes_en_attente' %}" class="btn btn-outline-secondary btn-lg">
             Retour
         </a>
-
     </div>
 </div>
-
 {% endblock %}

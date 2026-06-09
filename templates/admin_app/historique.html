@@ -3,55 +3,59 @@
 {% block title %}Historique{% endblock %}
 
 {% block content %}
-
-<div class="card shadow">
-    <div class="card-body">
-
-        <h2 class="mb-4">Historique des actions</h2>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Utilisateur</th>
-                        <th>Action</th>
-                        <th>Date</th>
-                        <th>Objet concerné</th>
-                        <th>Détail</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for action in actions %}
-                        <tr>
-                            <td>
-                                {% if action.utilisateur %}
-                                    {{ action.utilisateur.first_name }} {{ action.utilisateur.last_name }}
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </td>
-                            <td>{{ action.action }}</td>
-                            <td>{{ action.date_heure }}</td>
-                            <td>{{ action.objet_concerne|default:"-" }}</td>
-                            <td>{{ action.detail_contextuel|default:"-" }}</td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="5" class="text-center">
-                                Aucune action trouvée.
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<div class="surface p-4 p-md-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+        <div>
+            <span class="page-kicker">Journal</span>
+            <h1 class="page-title mt-2 mb-2">Historique des actions</h1>
+            <p class="text-muted-app mb-0">Suivez les opérations effectuées sur les attestations et les paramètres.</p>
         </div>
+        <div class="align-self-md-start">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary">
+                Retour dashboard
+            </a>
+        </div>
+    </div>
 
-        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
-            Retour dashboard
-        </a>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Action</th>
+                    <th>Date</th>
+                    <th>Objet concerné</th>
+                    <th>Détail</th>
+                </tr>
+            </thead>
 
+            <tbody>
+                {% for action in actions %}
+                    <tr>
+                        <td>
+                            {% if action.utilisateur %}
+                                {{ action.utilisateur.first_name }} {{ action.utilisateur.last_name }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td><span class="badge bg-dark">{{ action.action }}</span></td>
+                        <td>{{ action.date_heure }}</td>
+                        <td>{{ action.objet_concerne|default:"-" }}</td>
+                        <td>{{ action.detail_contextuel|default:"-" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state text-center p-4">
+                                <h5 class="fw-bold">Aucune action trouvée</h5>
+                                <p class="text-muted-app mb-0">Les prochaines opérations seront enregistrées ici.</p>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
-
 {% endblock %}

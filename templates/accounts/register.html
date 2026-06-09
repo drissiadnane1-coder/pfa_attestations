@@ -3,87 +3,80 @@
 {% block title %}Inscription{% endblock %}
 
 {% block content %}
-
 <div class="row justify-content-center">
-    <div class="col-md-7">
-
-        <div class="card shadow">
-            <div class="card-body">
-
-                <h2 class="text-center mb-4">
-                    Création d’un compte demandeur
-                </h2>
-
-                {% if error %}
-                    <div class="alert alert-danger">
-                        {{ error }}
-                    </div>
-                {% endif %}
-
-                <form method="POST">
-                    {% csrf_token %}
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Prénom</label>
-                            <input type="text" name="first_name" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Nom</label>
-                            <input type="text" name="last_name" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" required>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Mot de passe</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Confirmation mot de passe</label>
-                            <input type="password" name="password_confirm" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Date de naissance</label>
-                            <input type="date" name="date_naissance" class="form-control">
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Téléphone</label>
-                            <input type="text" name="telephone" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Structure</label>
-                        <input type="text" name="structure" class="form-control">
-                    </div>
-
-                    <button type="submit" class="btn btn-success w-100">
-                        Créer mon compte
-                    </button>
-                </form>
-
-                <div class="text-center mt-3">
-                    <a href="{% url 'login' %}">
+    <div class="col-xl-9">
+        <div class="surface p-4 p-md-5">
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+                <div>
+                    <span class="page-kicker">Nouveau demandeur</span>
+                    <h1 class="page-title mt-2 mb-2">Créer un compte</h1>
+                    <p class="text-muted-app mb-0">
+                        Renseignez vos informations pour déposer et suivre vos demandes d’attestation.
+                    </p>
+                </div>
+                <div class="align-self-md-start">
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">
                         J’ai déjà un compte
                     </a>
                 </div>
-
             </div>
-        </div>
 
+            {% if error %}
+                <div class="alert alert-danger border-0 rounded-4">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Prénom</label>
+                        <input type="text" name="first_name" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Nom</label>
+                        <input type="text" name="last_name" class="form-control" required>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Mot de passe</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Confirmation du mot de passe</label>
+                        <input type="password" name="password_confirm" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Date de naissance</label>
+                        <input type="date" name="date_naissance" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Téléphone</label>
+                        <input type="text" name="telephone" class="form-control">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Structure</label>
+                        <input type="text" name="structure" class="form-control">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
+                    Créer mon compte
+                </button>
+            </form>
+        </div>
     </div>
 </div>
-
 {% endblock %}

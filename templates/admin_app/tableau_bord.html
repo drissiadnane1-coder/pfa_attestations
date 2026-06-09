@@ -3,69 +3,62 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block content %}
-
-<h2 class="mb-4">Tableau de bord administrateur</h2>
-
-<div class="row g-3">
-
-    <div class="col-md-4">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5>Total demandes</h5>
-                <h2>{{ total_demandes }}</h2>
-            </div>
+<div class="surface p-4 p-md-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+        <div>
+            <span class="page-kicker">Indicateurs</span>
+            <h1 class="page-title mt-2 mb-2">Tableau de bord administrateur</h1>
+            <p class="text-muted-app mb-0">Vue synthétique sur les demandes, attestations et vérifications QR.</p>
+        </div>
+        <div class="align-self-md-start">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary">
+                Retour dashboard
+            </a>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5>En attente</h5>
-                <h2>{{ demandes_en_attente }}</h2>
+    <div class="row g-3">
+        <div class="col-md-6 col-xl-4">
+            <div class="metric-card p-4 h-100">
+                <span class="text-muted-app fw-semibold">Total demandes</span>
+                <div class="metric-value text-primary">{{ total_demandes }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="metric-card p-4 h-100">
+                <span class="text-muted-app fw-semibold">En attente</span>
+                <div class="metric-value text-warning">{{ demandes_en_attente }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="metric-card p-4 h-100">
+                <span class="text-muted-app fw-semibold">Validées</span>
+                <div class="metric-value text-success">{{ demandes_validees }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="metric-card p-4 h-100">
+                <span class="text-muted-app fw-semibold">Rejetées</span>
+                <div class="metric-value text-danger">{{ demandes_rejetees }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="metric-card p-4 h-100">
+                <span class="text-muted-app fw-semibold">Attestations générées</span>
+                <div class="metric-value text-primary">{{ total_attestations }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="metric-card p-4 h-100">
+                <span class="text-muted-app fw-semibold">Vérifications QR</span>
+                <div class="metric-value text-dark">{{ total_verifications }}</div>
             </div>
         </div>
     </div>
-
-    <div class="col-md-4">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5>Validées</h5>
-                <h2>{{ demandes_validees }}</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5>Rejetées</h5>
-                <h2>{{ demandes_rejetees }}</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5>Attestations générées</h5>
-                <h2>{{ total_attestations }}</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h5>Vérifications QR</h5>
-                <h2>{{ total_verifications }}</h2>
-            </div>
-        </div>
-    </div>
-
 </div>
-
-<a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mt-4">
-    Retour dashboard
-</a>
-
 {% endblock %}

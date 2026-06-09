@@ -3,69 +3,72 @@
 {% block title %}Types d’attestation{% endblock %}
 
 {% block content %}
+<div class="surface p-4 p-md-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+        <div>
+            <span class="page-kicker">Catalogue</span>
+            <h1 class="page-title mt-2 mb-2">Types d’attestation</h1>
+            <p class="text-muted-app mb-0">Gérez les libellés, descriptions et statuts disponibles pour les demandeurs.</p>
+        </div>
+        <div class="align-self-md-start">
+            <a href="{% url 'ajouter_type_attestation' %}" class="btn btn-primary">
+                Ajouter un type
+            </a>
+        </div>
+    </div>
 
-<div class="card shadow">
-    <div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Libellé</th>
+                    <th>Description</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        <h2 class="mb-4">Gestion des types d’attestation</h2>
-
-        <a href="{% url 'ajouter_type_attestation' %}" class="btn btn-primary mb-3">
-            Ajouter un type
-        </a>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-primary">
+            <tbody>
+                {% for type in types %}
                     <tr>
-                        <th>ID</th>
-                        <th>Libellé</th>
-                        <th>Description</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for type in types %}
-                        <tr>
-                            <td>{{ type.id }}</td>
-                            <td>{{ type.libelle }}</td>
-                            <td>{{ type.description|default:"-" }}</td>
-                            <td>
-                                {% if type.statut %}
-                                    <span class="badge bg-success">Actif</span>
-                                {% else %}
-                                    <span class="badge bg-secondary">Inactif</span>
-                                {% endif %}
-                            </td>
-                            <td>
+                        <td class="fw-semibold">#{{ type.id }}</td>
+                        <td>{{ type.libelle }}</td>
+                        <td>{{ type.description|default:"-" }}</td>
+                        <td>
+                            {% if type.statut %}
+                                <span class="badge bg-success">Actif</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactif</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex flex-wrap gap-2">
                                 <a href="{% url 'modifier_type_attestation' type.id %}" class="btn btn-sm btn-warning">
                                     Modifier
                                 </a>
-
                                 <a href="{% url 'changer_statut_type_attestation' type.id %}" class="btn btn-sm btn-outline-dark">
-                                    {% if type.statut %}
-                                        Désactiver
-                                    {% else %}
-                                        Activer
-                                    {% endif %}
+                                    {% if type.statut %}Désactiver{% else %}Activer{% endif %}
                                 </a>
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="5" class="text-center">Aucun type trouvé.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
-            Retour dashboard
-        </a>
-
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state text-center p-4">
+                                <h5 class="fw-bold">Aucun type trouvé</h5>
+                                <p class="text-muted-app mb-0">Ajoutez un premier type pour ouvrir le dépôt de demandes.</p>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-</div>
 
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary mt-4">
+        Retour dashboard
+    </a>
+</div>
 {% endblock %}

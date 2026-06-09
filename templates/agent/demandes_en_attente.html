@@ -3,58 +3,62 @@
 {% block title %}Demandes en attente{% endblock %}
 
 {% block content %}
-
-<div class="card shadow">
-    <div class="card-body">
-
-        <h2 class="mb-4">Demandes en attente</h2>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-primary">
-                    <tr>
-                        <th>ID</th>
-                        <th>Demandeur</th>
-                        <th>Type</th>
-                        <th>Date dépôt</th>
-                        <th>Statut</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for demande in demandes %}
-                        <tr>
-                            <td>{{ demande.id }}</td>
-                            <td>
-                                {{ demande.demandeur.utilisateur.first_name }}
-                                {{ demande.demandeur.utilisateur.last_name }}
-                            </td>
-                            <td>{{ demande.type_attestation.libelle }}</td>
-                            <td>{{ demande.date_depot }}</td>
-                            <td>
-                                <span class="badge bg-warning text-dark">En attente</span>
-                            </td>
-                            <td>
-                                <a href="{% url 'detail_demande' demande.id %}" class="btn btn-sm btn-primary">
-                                    Voir détail
-                                </a>
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="6" class="text-center">Aucune demande en attente.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<div class="surface p-4 p-md-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+        <div>
+            <span class="page-kicker">File de traitement</span>
+            <h1 class="page-title mt-2 mb-2">Demandes en attente</h1>
+            <p class="text-muted-app mb-0">Analysez les dossiers reçus avant validation ou rejet.</p>
         </div>
+        <div class="align-self-md-start">
+            <a href="{% url 'agent_dashboard' %}" class="btn btn-outline-secondary">
+                Retour dashboard
+            </a>
+        </div>
+    </div>
 
-        <a href="{% url 'agent_dashboard' %}" class="btn btn-secondary">
-            Retour dashboard
-        </a>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Demandeur</th>
+                    <th>Type</th>
+                    <th>Date dépôt</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
+            <tbody>
+                {% for demande in demandes %}
+                    <tr>
+                        <td class="fw-semibold">#{{ demande.id }}</td>
+                        <td>
+                            {{ demande.demandeur.utilisateur.first_name }}
+                            {{ demande.demandeur.utilisateur.last_name }}
+                        </td>
+                        <td>{{ demande.type_attestation.libelle }}</td>
+                        <td>{{ demande.date_depot }}</td>
+                        <td><span class="badge bg-warning text-dark">En attente</span></td>
+                        <td>
+                            <a href="{% url 'detail_demande' demande.id %}" class="btn btn-sm btn-primary">
+                                Voir détail
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state text-center p-4">
+                                <h5 class="fw-bold">Aucune demande en attente</h5>
+                                <p class="text-muted-app mb-0">La file de traitement est vide.</p>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
-
 {% endblock %}
