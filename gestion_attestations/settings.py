@@ -126,10 +126,16 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    ".vercel.app",
+    'localhost',
+    '127.0.0.1',
+    '.vercel.app',
+    'https://divided-gaming-dander.ngrok-free.dev/',
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://divided-gaming-dander.ngrok-free.dev/',
+]
+
