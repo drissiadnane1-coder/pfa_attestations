@@ -13,11 +13,11 @@ urlpatterns = [
     path('verification/<uuid:identifiant>/', views.verifier_attestation, name='verifier_attestation'),
     path('demandeur/attestation/<int:demande_id>/telecharger/', views.telecharger_attestation, name='telecharger_attestation'),
     path('admin/types/', views.liste_types_attestation, name='liste_types_attestation'),
-path('espace-admin/types/', views.liste_types_attestation, name='liste_types_attestation'),
-path('espace-admin/types/ajouter/', views.ajouter_type_attestation, name='ajouter_type_attestation'),
-path('espace-admin/types/<int:type_id>/modifier/', views.modifier_type_attestation, name='modifier_type_attestation'),
-path('espace-admin/types/<int:type_id>/changer-statut/', views.changer_statut_type_attestation, name='changer_statut_type_attestation'),
+    path('espace-admin/types/', views.liste_types_attestation, name='liste_types_attestation'),
+    path('espace-admin/types/ajouter/', views.ajouter_type_attestation, name='ajouter_type_attestation'),
+    path('espace-admin/types/<int:type_id>/modifier/', views.modifier_type_attestation, name='modifier_type_attestation'),
+    path('espace-admin/types/<int:type_id>/changer-statut/', views.changer_statut_type_attestation, name='changer_statut_type_attestation'),
 
-path('espace-admin/tableau-bord/', views.tableau_bord_admin, name='tableau_bord_admin'),
-path('espace-admin/historique/', views.historique_actions, name='historique_actions'),
+    path('espace-admin/tableau-bord/', views.tableau_bord_admin, name='tableau_bord_admin'),
+    path('espace-admin/historique/', views.historique_actions, name='historique_actions'),
 ]
