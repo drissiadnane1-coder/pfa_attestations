@@ -129,13 +129,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '.vercel.app',
-    'https://divided-gaming-dander.ngrok-free.dev/',
+    "localhost",
+    "127.0.0.1",
+    ".ngrok-free.dev",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://divided-gaming-dander.ngrok-free.dev/',
+    "https://*.ngrok-free.dev",
 ]
-
