@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Vérification Email{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="surface p-4 p-md-5">
+            <div class="mb-4">
+                <span class="page-kicker">Sécurité</span>
+                <h1 class="page-title mt-2 mb-2">Vérification de votre email</h1>
+                <p class="text-muted-app mb-0">Un code à 6 chiffres vient d'être envoyé à votre adresse email. Veuillez le saisir ci-dessous pour activer votre compte.</p>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger border-0 rounded-4 mb-4">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if error %}
+                <div class="alert alert-danger border-0 rounded-4 mb-4">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'verify_code' %}" class="vstack gap-3">
+                {% csrf_token %}
+
+                <div>
+                    <label class="form-label fw-semibold">Code de vérification</label>
+                    <input type="text" name="code" class="form-control form-control-lg text-center fs-4 letter-spacing-2" 
+                           pattern="\d{6}" title="Le code doit contenir exactement 6 chiffres" 
+                           maxlength="6" placeholder="123456" required>
+                </div>
+
+                <div class="d-flex flex-column flex-sm-row gap-2 pt-2">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        Vérifier et activer mon compte
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

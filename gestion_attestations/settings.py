@@ -137,3 +137,30 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://*.ngrok-free.dev",
 ]
+
+
+
+# settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'gestionattestation@gmail.com'
+EMAIL_HOST_PASSWORD = 'sgiv gzqm qqst slig'
+
+
+
+# Configuration de la durée de vie des sessions (en secondes)
+SESSION_COOKIE_AGE = 600
+
+# Si True, l'utilisateur est déconnecté dès qu'il ferme son navigateur
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Si True, la session se prolonge (le compte à rebours recommence à zéro)
+# à chaque fois que l'utilisateur charge une page. Très utile pour rester connecté !
+SESSION_SAVE_EVERY_REQUEST = True
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'redirect_by_role'
+

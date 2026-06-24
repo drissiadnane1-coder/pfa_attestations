@@ -4,16 +4,6 @@ from .models import TypeAttestation, DemandeAttestation, Attestation, Verificati
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from .models import (
-    TypeAttestation,
-    DemandeAttestation,
-    Attestation,
-    FichierPDF,
-    QRCodeAttestation,
-    JournalAction,
-    VerificationAttestation,
-)
-
 from accounts.models import ProfilDemandeur
 from .models import (
     TypeAttestation,
